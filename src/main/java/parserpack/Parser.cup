@@ -1,0 +1,33 @@
+package parserpack;
+
+import java_cup.runtime.*;
+
+/* Terminais (devem corresponder ao lexer) */
+terminal Integer INTEIRO;
+terminal String LETRA;
+terminal Object DOCE;
+terminal String INVALIDO;
+terminal MAIS, MENOS, MULT, DIV;
+
+/* Não-terminais */
+non terminal Object expr_list, expr;
+
+/* precedência e associatividade para evitar conflitos */
+precedence left MAIS, MENOS;
+precedence left MULT, DIV;
+
+/* Símbolo inicial */
+start with expr_list;
+
+/* Gramática */
+expr_list ::= expr_list expr
+            | expr
+            ;
+
+expr ::= DOCE
+       | INTEIRO
+       | expr MULT expr
+       | expr DIV expr
+       | expr MAIS expr
+       | expr MENOS expr
+       ;
