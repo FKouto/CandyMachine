@@ -1,0 +1,98 @@
+package parserpack;
+
+import java_cup.runtime.*;
+import java.util.*;
+import scanner.Scanner;
+
+/* ==========================================================
+   TERMINAIS (Devem bater com o seu Lexer)
+   ========================================================== */
+
+/* Terminais sem valor associado (apenas a presença importa) */
+terminal IF, WHILE;
+terminal ABRE_CHAVE, FECHA_CHAVE;
+terminal ABRE_PAR, FECHA_PAR;
+terminal PONTO_VIRGULA;
+terminal MAIOR_IGUAL, MENOR_IGUAL, IGUAL_IGUAL, DIFERENTE, MAIOR, MENOR;
+terminal INC, DEC;       // ++ e --
+terminal MAIS, MENOS;
+terminal INVALIDO;       // Token de erro do lexer
+
+/* Terminais com valor (O lexer retorna um objeto junto) */
+terminal Integer INTEIRO;
+terminal String  LETRA;  // Variáveis como 'x', 'y'
+terminal Object  DOCE;   // Retorna Object[]{valor, tipo}
+
+/* ==========================================================
+   NÃO TERMINAIS (Variáveis da gramática)
+   ========================================================== */
+non terminal program;
+non terminal stmt_list, stmt;
+non terminal if_stmt, while_stmt, block;
+non terminal expr;
+
+/* ==========================================================
+   PRECEDÊNCIA (Para resolver ambiguidades e ordem de cálculo)
+   ========================================================== */
+precedence left IGUAL_IGUAL, DIFERENTE;
+precedence left MAIOR, MENOR, MAIOR_IGUAL, MENOR_IGUAL;
+precedence left MAIS, MENOS;
+precedence right INC, DEC; /* Unários costumam ter precedência alta */
+
+/* ==========================================================
+   GRAMÁTICA (Regras de Produção)
+   ========================================================== */
+
+start with program;
+
+/* Um programa é uma lista de sentenças */
+program ::= stmt_list
+        ;
+
+stmt_list ::= stmt_list stmt
+            | stmt
+            ;
+
+/* Tipos de sentenças possíveis */
+stmt ::= if_stmt
+       | while_stmt
+       | block
+       | expr PONTO_VIRGULA  /* Ex: x++; ou 5+5; */
+       | PONTO_VIRGULA       /* Sentença vazia */
+       ;
+
+/* Estrutura do Bloco { ... } */
+block ::= ABRE_CHAVE stmt_list FECHA_CHAVE
+        | ABRE_CHAVE FECHA_CHAVE
+        ;
+
+/* Estrutura do IF */
+if_stmt ::= IF ABRE_PAR expr FECHA_PAR stmt
+          ;
+
+/* Estrutura do WHILE */
+while_stmt ::= WHILE ABRE_PAR expr FECHA_PAR stmt
+             ;
+
+/* Expressões */
+expr ::= expr MAIS expr
+       | expr MENOS expr
+       | expr MAIOR_IGUAL expr
+       | expr MENOR_IGUAL expr
+       | expr IGUAL_IGUAL expr
+       | expr DIFERENTE expr
+       | expr MAIOR expr
+       | expr MENOR expr
+       | INC expr     /* ++x */
+       | DEC expr     /* --x */
+       | expr INC     /* x++ */
+       | expr DEC     /* x-- */
+       | ABRE_PAR expr FECHA_PAR
+       | INTEIRO:n    {: System.out.println("Lido Inteiro: " + n); :}
+       | LETRA:l      {: System.out.println("Lida Variavel: " + l); :}
+       | DOCE:d       {:
+            // Exemplo de como acessar o valor complexo do token DOCE
+            Object[] dados = (Object[]) d;
+            System.out.println("Lido Doce -> Valor: " + dados[0] + ", Tipo: " + dados[1]);
+         :}
+       ;

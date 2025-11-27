@@ -1,4 +1,4 @@
-package org.candymachine;
+package scanner;
 
 import java_cup.runtime.Symbol;
 import parserpack.sym;
@@ -39,7 +39,34 @@ espaco     = [ \t\r\n]+
    TOKENS
    ============================= */
 
-/* DOCE: exemplo → 55A, 10B, 3C */
+/* Palavras reservadas */
+"if"        { return new Symbol(sym.IF, yyline, yycolumn); }
+"while"     { return new Symbol(sym.WHILE, yyline, yycolumn); }
+
+/* Delimitadores de bloco */
+"{"         { return new Symbol(sym.ABRE_CHAVE, yyline, yycolumn); }
+"}"         { return new Symbol(sym.FECHA_CHAVE, yyline, yycolumn); }
+
+/* Parênteses */
+"("         { return new Symbol(sym.ABRE_PAR, yyline, yycolumn); }
+")"         { return new Symbol(sym.FECHA_PAR, yyline, yycolumn); }
+
+/* Ponto e vírgula */
+";"         { return new Symbol(sym.PONTO_VIRGULA, yyline, yycolumn); }
+
+/* Operadores relacionais */
+">="        { return new Symbol(sym.MAIOR_IGUAL, yyline, yycolumn); }
+"<="        { return new Symbol(sym.MENOR_IGUAL, yyline, yycolumn); }
+"=="        { return new Symbol(sym.IGUAL_IGUAL, yyline, yycolumn); }
+"!="        { return new Symbol(sym.DIFERENTE, yyline, yycolumn); }
+">"         { return new Symbol(sym.MAIOR, yyline, yycolumn); }
+"<"         { return new Symbol(sym.MENOR, yyline, yycolumn); }
+
+/* Operadores incremento/decremento */
+"++"        { return new Symbol(sym.INC, yyline, yycolumn); }
+"--"        { return new Symbol(sym.DEC, yyline, yycolumn); }
+
+/* DOCE → ex.: 55A, 10B, 3C */
 {doce} {
     String txt = yytext();
     int valor = Integer.parseInt(txt.substring(0, txt.length() - 1));
@@ -73,11 +100,9 @@ espaco     = [ \t\r\n]+
     );
 }
 
-/* Operadores */
+/* Operadores aritméticos */
 "+"    { return new Symbol(sym.MAIS, yyline, yycolumn); }
 "-"    { return new Symbol(sym.MENOS, yyline, yycolumn); }
-"*"    { return new Symbol(sym.MULT, yyline, yycolumn); }
-"/"    { return new Symbol(sym.DIV, yyline, yycolumn); }
 
 /* Espaços → ignorar */
 {espaco} { /* ignora */ }

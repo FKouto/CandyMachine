@@ -8,27 +8,53 @@ package parserpack;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int MAIS = 6;
-  public static final int DOCE = 4;
-  public static final int INTEIRO = 2;
-  public static final int MENOS = 7;
-  public static final int MULT = 8;
-  public static final int LETRA = 3;
+  public static final int MENOS = 18;
+  public static final int MENOR = 14;
+  public static final int INVALIDO = 19;
+  public static final int DOCE = 22;
+  public static final int LETRA = 21;
+  public static final int MAIOR_IGUAL = 9;
+  public static final int WHILE = 3;
+  public static final int MENOR_IGUAL = 10;
+  public static final int IF = 2;
+  public static final int INTEIRO = 20;
+  public static final int MAIS = 17;
+  public static final int INC = 15;
+  public static final int IGUAL_IGUAL = 11;
   public static final int EOF = 0;
-  public static final int DIV = 9;
+  public static final int DIFERENTE = 12;
+  public static final int DEC = 16;
   public static final int error = 1;
-  public static final int INVALIDO = 5;
+  public static final int MAIOR = 13;
+  public static final int ABRE_CHAVE = 4;
+  public static final int PONTO_VIRGULA = 8;
+  public static final int FECHA_PAR = 7;
+  public static final int FECHA_CHAVE = 5;
+  public static final int ABRE_PAR = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "INTEIRO",
-  "LETRA",
-  "DOCE",
-  "INVALIDO",
+  "IF",
+  "WHILE",
+  "ABRE_CHAVE",
+  "FECHA_CHAVE",
+  "ABRE_PAR",
+  "FECHA_PAR",
+  "PONTO_VIRGULA",
+  "MAIOR_IGUAL",
+  "MENOR_IGUAL",
+  "IGUAL_IGUAL",
+  "DIFERENTE",
+  "MAIOR",
+  "MENOR",
+  "INC",
+  "DEC",
   "MAIS",
   "MENOS",
-  "MULT",
-  "DIV"
+  "INVALIDO",
+  "INTEIRO",
+  "LETRA",
+  "DOCE"
   };
 }
 
